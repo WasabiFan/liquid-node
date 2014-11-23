@@ -9,6 +9,10 @@
     {
       "name": "Henry Bergius",
       "email": "henri.bergius@iki.fi"
+    },
+    {
+      "name": "Wasabi Fan",
+      "email": "wasabifan@outlook.com"
     }
   ],
   "description": "Node.js port of Tobias Lütke's Liquid template engine.",
@@ -18,7 +22,7 @@
   "bugs": "https://github.com/sirlantis/liquid-node/issues",
   "repository": {
     "type": "git",
-    "url": "git://github.com/sirlantis/liquid-node.git"
+    "url": "git://github.com/wasabifan/liquid-node.git"
   },
   "directories": {
     "lib": "./lib"
@@ -50,7 +54,6 @@
     "test": "mocha --compilers coffee:coffee-script/register -R spec test",
     "compile": "rm -rf lib && coffee --output lib --map --compile src",
     "prepublish": "npm run precommit && npm run compile",
-    "precommit": "npm test && npm run lint",
     "coverage": "npm run compile && LIQUID_NODE_COVERAGE=1 mocha --compilers coffee:coffee-script/register -r jscoverage --reporter mocha-lcov-reporter test | coveralls",
     "coverage-report": "npm run compile && LIQUID_NODE_COVERAGE=1 mocha --compilers coffee:coffee-script/register -r jscoverage --covout html test",
     "lint": "coffeelint src/** test/**"
