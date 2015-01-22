@@ -53,7 +53,7 @@
   "scripts": {
     "test": "mocha --compilers coffee:coffee-script/register -R spec test",
     "compile": "node ./npm-compile.js",
-    "prepublish": "npm run precommit && npm run compile",
+    "prepublish": "npm run compile",
     "coverage": "npm run compile && LIQUID_NODE_COVERAGE=1 mocha --compilers coffee:coffee-script/register -r jscoverage --reporter mocha-lcov-reporter test | coveralls",
     "coverage-report": "npm run compile && LIQUID_NODE_COVERAGE=1 mocha --compilers coffee:coffee-script/register -r jscoverage --covout html test",
     "lint": "coffeelint src/** test/**"
