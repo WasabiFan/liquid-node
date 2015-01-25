@@ -5,7 +5,7 @@ var fs = require('fs');
 var exec = require('child_process').exec;
 
 deleteFolderRecursive('./lib');
-exec('coffee --output lib --map --compile src');
+exec('node_modules/coffee-script/bin/coffee --output lib --map --compile src');
 
 
 function deleteFolderRecursive(path) {
