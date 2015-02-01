@@ -2,10 +2,15 @@
 //rm -rf lib && coffee --output lib --map --compile src
 
 var fs = require('fs');
-var exec = require('child_process').exec;
+
+//More hacks...
+process.on('uncaughtException', function(err) {
+});
 
 deleteFolderRecursive('./lib');
-exec('node_modules/coffee-script/bin/coffee --output lib --map --compile src');
+
+process.argv = [,,'--output', 'lib', '--map', '--compile', 'src']; 
+require('./node_modules/coffee-script/lib/coffee-script/command.js').run();
 
 
 function deleteFolderRecursive(path) {
