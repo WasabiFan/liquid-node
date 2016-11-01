@@ -1,5 +1,5 @@
 Liquid = require "../liquid"
-Promise = require "bluebird"
+Promise = require "native-or-bluebird"
 
 module.exports = class Liquid.Template
 
@@ -16,7 +16,7 @@ module.exports = class Liquid.Template
   # Parse source code.
   # Returns self for easy chaining
   parse: (@engine, source = "") ->
-    Promise.try =>
+    Promise.resolve().then =>
       tokens = @_tokenize source
 
       @tags = @engine.tags
@@ -37,7 +37,7 @@ module.exports = class Liquid.Template
   #    liquid more with its host application
   #
   render: (args...) ->
-    Promise.try => @_render args...
+    Promise.resolve().then => @_render args...
 
   _render: (assigns, options) ->
     throw new Error "No document root. Did you parse the document yet?" unless @root?
@@ -59,11 +59,19 @@ module.exports = class Liquid.Template
     if options?.filters
       context.registerFilters options.filters...
 
+    copyErrors = (actualResult) =>
+      @errors = context.errors
+      actualResult
+
     @root.render(context)
     .then (chunks) ->
       Liquid.Helpers.toFlatString chunks
-    .finally =>
+    .then (result) ->
       @errors = context.errors
+      result
+    , (error) ->
+      @errors = context.errors
+      throw error
 
   # Uses the <tt>Liquid::TemplateParser</tt> regexp to tokenize
   # the passed source

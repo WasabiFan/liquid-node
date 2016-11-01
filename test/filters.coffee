@@ -1,5 +1,6 @@
 Liquid = requireLiquid()
-Promise = require "bluebird"
+Promise = require "native-or-bluebird"
+strftime = require "strftime"
 
 describe "StandardFilters", ->
   beforeEach ->
@@ -108,9 +109,9 @@ describe "StandardFilters", ->
 
     it "sorts on future properties", ->
       input = [
-        { count: Promise.cast(5) }
-        { count: Promise.cast(3) }
-        { count: Promise.cast(7) }
+        { count: Promise.resolve(5) }
+        { count: Promise.resolve(3) }
+        { count: Promise.resolve(7) }
       ]
 
       expect(@filters.sort(input, "count")).to.become [
@@ -204,7 +205,8 @@ describe "StandardFilters", ->
       expect(@filters.date("2006-07-05 10:00:00", "%m/%d/%Y")).to.equal "07/05/2006"
       expect(@filters.date("Fri Jul 16 01:00:00 2004", "%m/%d/%Y")).to.equal "07/16/2004"
 
-    # TODO: now/today?
+    it "formats the date when passing in now", ->
+      expect(@filters.date("now", "%m/%d/%Y")).to.equal strftime("%m/%d/%Y")
 
     it "ignores non-dates", ->
       expect(@filters.date(null, "%B")).to.equal ""
@@ -250,6 +252,11 @@ describe "StandardFilters", ->
     it "divides", ->
       expect(@filters.dividedBy(8, 2)).to.equal 4
       expect(@filters.divided_by(8, 2)).to.equal 4
+
+  describe "round", ->
+    it "rounds", ->
+      expect(@filters.round(3.1415,2)).to.equal "3.14"
+      expect(@filters.round(3.9999,2)).to.equal "4.00"
 
   describe "modulo", ->
     it "applies modulo", ->

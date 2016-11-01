@@ -1,5 +1,5 @@
 Range = require "./range"
-Promise = require "bluebird"
+Promise = require "native-or-bluebird"
 
 isString = (input) ->
   Object::toString.call(input) is "[object String]"
@@ -9,7 +9,9 @@ module.exports = class Iterable
     @slice(0, 1).then (a) -> a[0]
 
   map: ->
-    @toArray().map arguments...
+    args = arguments
+    @toArray().then (a) ->
+      Promise.all a.map args...
 
   sort: ->
     args = arguments
@@ -41,7 +43,7 @@ class IterableForArray extends Iterable
   constructor: (@array) ->
 
   slice: ->
-    Promise.cast @array.slice arguments...
+    Promise.resolve @array.slice arguments...
 
   last: ->
-    Promise.cast @array[@array.length - 1]
+    Promise.resolve @array[@array.length - 1]

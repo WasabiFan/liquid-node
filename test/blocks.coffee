@@ -1,5 +1,4 @@
 Liquid = requireLiquid()
-Promise = require "bluebird"
 
 describe "Blocks (in general)", ->
   beforeEach -> @engine = new Liquid.Engine
@@ -116,10 +115,16 @@ describe "Capture", ->
     renderTest 'Foo', '{% capture foo %}Foo{% endcapture %}{{ foo }}'
 
 describe "Raw", ->
-  it "ignores liquid-tags in body", ->
+  it "prints liquid-tags in body", ->
     renderTest '{% if value %}{{ value }}{% endif %}',
       '{% raw %}{% if value %}{{ value }}{% endif %}{% endraw %}',
       value: true
+
+  it "ignores liquid-tags in body", ->
+    renderTest '{% woot %}', '{% raw %}{% woot %}{% endraw %}'
+
+  it "ends on first endraw", ->
+    renderTest '{% raw %}X', '{% raw %}{% raw %}X{% endraw %}'
 
 describe "Comment", ->
   it "it swallows it's body", ->
