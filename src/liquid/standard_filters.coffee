@@ -1,5 +1,5 @@
 strftime = require "strftime"
-Promise = require "bluebird"
+Promise = require "native-or-bluebird"
 Iterable = require "./iterable"
 { flatten } = require "./helpers"
 
@@ -38,6 +38,7 @@ toIterable = (input) ->
 toDate = (input) ->
   return unless input?
   return input if input instanceof Date
+  return new Date() if input is 'now'
 
   if isNumber input
     input = parseInt input
@@ -104,7 +105,7 @@ module.exports =
 
     toIterable(input)
     .map (item) ->
-      Promise.cast(item?[property])
+      Promise.resolve(item?[property])
       .then (key) ->
         { key, item }
     .then (array) ->
@@ -225,6 +226,9 @@ module.exports =
 
   divided_by: (input, operand) ->
     @dividedBy(input, operand)
+
+  round: (input, operand) ->
+    toNumber(input).toFixed(operand)
 
   modulo: (input, operand) ->
     toNumber(input) % toNumber(operand)
