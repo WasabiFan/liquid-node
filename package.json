@@ -11,15 +11,15 @@
       "email": "henri.bergius@iki.fi"
     },
     {
-      "name": "Wasabi Fan",
+      "name": "Kaelin Laundry",
       "email": "wasabifan@outlook.com"
     }
   ],
   "description": "Node.js port of Tobias Lütke's Liquid template engine.",
   "version": "2.4.0",
   "license": "MIT",
-  "homepage": "https://github.com/sirlantis/liquid-node",
-  "bugs": "https://github.com/sirlantis/liquid-node/issues",
+  "homepage": "https://github.com/wasabifan/liquid-node",
+  "bugs": "https://github.com/wasabifan/liquid-node/issues",
   "repository": {
     "type": "git",
     "url": "git://github.com/wasabifan/liquid-node.git"
