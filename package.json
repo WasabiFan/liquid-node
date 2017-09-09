@@ -32,9 +32,7 @@
     "node": ">= 0.10"
   },
   "dependencies": {
-    "strftime": "~0.8.0"
-  },
-  "peerDependencies": {
+    "strftime": "~0.8.0",
     "bluebird": "~3.5.0"
   },
   "devDependencies": {
